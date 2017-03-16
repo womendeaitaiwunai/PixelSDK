@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/pri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Hello World!"
+                android:background="#cccccc"/>
+
+            <TextView
+                android:id="@+id/pub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Hello World!"
+                android:layout_marginTop="20dp"
+                android:background="#cccccc"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/huoqu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获取"/>
+
+                <Button
+                    android:id="@+id/jiami"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加密"/>
+
+                <Button
+                    android:id="@+id/jiemi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="解密"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="待加密的"/>
+
+            <EditText
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="加密后的"/>
+
+            <EditText
+                android:id="@+id/three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="解密后的"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
