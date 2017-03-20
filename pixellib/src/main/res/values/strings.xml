@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PixelLib</string>
+    <string name="face_area_null">没有获取到有效人脸</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.pixelall.pixellib;
+package com.pixelall.pixellib.util;
 
 import java.io.File;
 
@@ -6,7 +6,7 @@ import java.io.File;
  * Created by lxl on 2017/3/14.
  */
 
-public class PixelParams {
+class PixelParams {
     private String companyName;
     private String app_key;
     private File Photo;

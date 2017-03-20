@@ -2,7 +2,10 @@ package com.pixelall.pixellib;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.view.View;
 
+import com.pixelall.pixellib.util.CheckBitmapCallback;
 import com.pixelall.pixellib.util.PixelUtil;
 
 /**
@@ -10,46 +13,22 @@ import com.pixelall.pixellib.util.PixelUtil;
  *  广州像素数据技术股份有限公司
  */
 
-public class PixelSDK {
-    public static int MODE_CHECK_BITMAP=0x01;
-    public static int MODE_UP_BITMAP=0x02;
-
+public class PixelSDK implements CheckBitmapCallback{
     private Context context;
     private PixelCallBack callBack;
     private PixelResult pixelResult;
-    private PixelParams pixelParams=new PixelParams();
     private PixelSDK pixelSDK;
+    private PixelUtil pixelUtil;
 
 
-    /**
-     * 初始化SDK
-     * @param context  上下文
-     * @return
-     */
-    public PixelSDK getInstance(Context context) {
+    public PixelSDK(Context context){
         this.context=context;
-        pixelSDK=initPixelParams();
-        return this;
+        getInstance(context);
     }
 
-
-    private PixelSDK initPixelParams() {
-        pixelParams= PixelUtil.initParams(context);
-        pixelResult=PixelUtil.checkData(context,pixelParams);
-        return this;
+    public void start(Bitmap bitmap){
+       startCheckAndSend(bitmap);
     }
-
-
-    private PixelSDK checkBitmap(Bitmap bitmap){
-        if (callBack==null) return getInstance(context);
-        if (pixelResult.getResultCode()== PixelCode.SUCCESS){
-            callBack.checkResult(MODE_CHECK_BITMAP,pixelResult);
-        }else {
-
-        }
-        return this;
-    }
-
 
 
     /**
@@ -60,9 +39,38 @@ public class PixelSDK {
         this.callBack=callBack;
     }
 
-    public void checkPhoto(){
 
+
+    private PixelSDK getInstance(Context context) {
+        this.context=context;
+        pixelUtil=new PixelUtil();
+        pixelSDK=initPixelParams();
+        return this;
     }
 
 
+    private PixelSDK initPixelParams() {
+        pixelResult=pixelUtil.checkData(context);
+        return this;
+    }
+
+
+    private void startCheckAndSend(Bitmap bitmap){
+        if (callBack==null) return;
+        if (pixelResult.getResultCode()== PixelCode.SUCCESS){
+            pixelUtil.checkBitmap(bitmap);
+            pixelUtil.setCheckBitmapCallback(this);
+        }else {
+            callBack.checkResult(pixelResult);
+        }
+    }
+
+    @Override
+    public void checkBitmapResult(PixelResult pixelResult) {
+        if (pixelResult.getResultCode()==PixelCode.SUCCESS){
+            Log.i("startCheckAndSend", "checkResult: "+pixelResult.getResultCode());
+        }else {
+            callBack.checkResult(pixelResult);
+        }
+    }
 }

@@ -15,6 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data android:name="company" android:value="pixelall"/>
+        <meta-data android:name="app_key" android:value="pvRLSncUck1fwtTYG6wwdVK1Af5qFP0Gubmd8POp3sicSdGsfrN6gOXSMYI48yAQ7MBnt/VQyLiPO1Bc+6rGdQ=="/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.pixelall.pixellib;
+package com.pixelall.pixellib.util;
 
 /**
  * Created by lxl on 2017/3/15.
