@@ -3,10 +3,14 @@ package com.pixelall.pixellib;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.view.View;
 
 import com.pixelall.pixellib.util.CheckBitmapCallback;
 import com.pixelall.pixellib.util.PixelUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.https.HttpsUtils;
+
+import okhttp3.Call;
 
 /**
  * Created by lxl on 2017/3/14.
@@ -17,7 +21,6 @@ public class PixelSDK implements CheckBitmapCallback{
     private Context context;
     private PixelCallBack callBack;
     private PixelResult pixelResult;
-    private PixelSDK pixelSDK;
     private PixelUtil pixelUtil;
 
 
@@ -44,7 +47,7 @@ public class PixelSDK implements CheckBitmapCallback{
     private PixelSDK getInstance(Context context) {
         this.context=context;
         pixelUtil=new PixelUtil();
-        pixelSDK=initPixelParams();
+        initPixelParams();
         return this;
     }
 
@@ -69,6 +72,23 @@ public class PixelSDK implements CheckBitmapCallback{
     public void checkBitmapResult(PixelResult pixelResult) {
         if (pixelResult.getResultCode()==PixelCode.SUCCESS){
             Log.i("startCheckAndSend", "checkResult: "+pixelResult.getResultCode());
+            OkHttpUtils.get().url("http://www.baidu.com").build().execute(new StringCallback() {
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    PixelResult pixelResult=new PixelResult();
+                    pixelResult.setResultCode(PixelCode.OTHER_FAIL);
+                    pixelResult.setResultMessage("请求发生错误");
+                    callBack.checkResult(pixelResult);
+                }
+
+                @Override
+                public void onResponse(String response, int id) {
+                    PixelResult pixelResult=new PixelResult();
+                    pixelResult.setResultCode(PixelCode.SUCCESS);
+                    pixelResult.setResultMessage(response);
+                    callBack.checkResult(pixelResult);
+                }
+            });
         }else {
             callBack.checkResult(pixelResult);
         }

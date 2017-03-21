@@ -35,8 +35,8 @@ public class PixelUtil {
             ApplicationInfo appInfo = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(),
                             PackageManager.GET_META_DATA);
-            String company=appInfo.metaData.getString(PixelCommen.COMPANY);
-            String app_key=appInfo.metaData.getString(PixelCommen.APP_KEY);
+            String company=appInfo.metaData.getString(PixelCommon.COMPANY);
+            String app_key=appInfo.metaData.getString(PixelCommon.APP_KEY);
             params.setCompanyName(company);
             params.setApp_key(app_key);
         }catch (Exception e){
@@ -97,12 +97,12 @@ public class PixelUtil {
     private int checkFace(Bitmap mFaceBitmap565)
     {
         FaceDetector fd;
-        faces= new FaceDetector.Face[PixelCommen.MAX_FACE];
-        int count= PixelCommen.ERROR_FACE;
+        faces= new FaceDetector.Face[PixelCommon.MAX_FACE];
+        int count= PixelCommon.ERROR_FACE;
         bitmapWidth=mFaceBitmap565.getWidth();
         int bitmapHeight=mFaceBitmap565.getHeight();
         try {
-            fd = new FaceDetector(bitmapWidth, bitmapHeight, PixelCommen.MAX_FACE);
+            fd = new FaceDetector(bitmapWidth, bitmapHeight, PixelCommon.MAX_FACE);
             count = fd.findFaces(mFaceBitmap565, faces);
         } catch (Exception e) {
             Log.i("checkFace", "checkFace: error");
@@ -139,16 +139,16 @@ public class PixelUtil {
                 pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
             }else {
                 int checkFaceResult=checkFace(bitmap);
-                if (checkFaceResult == PixelCommen.TWO_FACE) {
+                if (checkFaceResult == PixelCommon.TWO_FACE) {
                     pixelResult.setResultCode(PixelCode.MANY_FACE_ERROR);
                     pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
-                }else if (checkFaceResult== PixelCommen.ERROR_FACE){
+                }else if (checkFaceResult== PixelCommon.ERROR_FACE){
                     pixelResult.setResultCode(PixelCode.FACE_EX_ERROR);
                     pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
-                }else if (checkFaceResult== PixelCommen.NO_FACE){
+                }else if (checkFaceResult== PixelCommon.NO_FACE){
                     pixelResult.setResultCode(PixelCode.NO_FACE_ERROR);
                     pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
-                }else if (checkFaceResult== PixelCommen.ONE_FACE){
+                }else if (checkFaceResult== PixelCommon.ONE_FACE){
                     pixelResult=checkFaceArea();
                 }
             }

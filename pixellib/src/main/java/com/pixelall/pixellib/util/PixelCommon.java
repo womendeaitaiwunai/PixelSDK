@@ -4,7 +4,7 @@ package com.pixelall.pixellib.util;
  * Created by lxl on 2017/3/15.
  */
 
-public class PixelCommen {
+public class PixelCommon {
     public static String COMPANY="company";
     public static String APP_KEY="app_key";
 
