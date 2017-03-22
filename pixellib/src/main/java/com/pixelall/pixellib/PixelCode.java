@@ -22,4 +22,9 @@ public class PixelCode {
     public static int FACE_AREA_BIG_ERROR=0x08;//人脸区域太大
     public static int FACE_AREA_SMALL_ERROR=0x09;//人脸区域太小
 
+    public static int SERVICE_URL_ERROR=0x10;//服务器地址错误
+    public static int SERVICE_CONNECT_ERROR=0x11;//连接服务器失败
+    public static int COMMIT_DATA_ERROR=0x12;//提交数据出错
+    public static int RETURN_DATA_ERROR=0x13;//返回数据错误
+
 }

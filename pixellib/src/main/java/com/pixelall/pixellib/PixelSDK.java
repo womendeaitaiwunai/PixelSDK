@@ -2,46 +2,57 @@ package com.pixelall.pixellib;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.pixelall.pixellib.util.CheckBitmapCallback;
 import com.pixelall.pixellib.util.PixelUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-import com.zhy.http.okhttp.https.HttpsUtils;
-
-import okhttp3.Call;
+import com.pixelall.pixellib.util.UploadBitmapCallback;
 
 /**
  * Created by lxl on 2017/3/14.
  *  广州像素数据技术股份有限公司
  */
 
-public class PixelSDK implements CheckBitmapCallback{
+public class PixelSDK implements CheckBitmapCallback,UploadBitmapCallback{
     private Context context;
     private PixelCallBack callBack;
     private PixelResult pixelResult;
     private PixelUtil pixelUtil;
+    public static int TYPE_CHECK_FACE=0x01;
+    public static int TYPE_UPLOAD_BITMAP=0x02;
 
 
+    /**
+     * SDK的初始化
+     * @param context 上下文
+     */
     public PixelSDK(Context context){
         this.context=context;
         getInstance(context);
     }
 
-    public void start(Bitmap bitmap){
-       startCheckAndSend(bitmap);
+    /**
+     * 开始执行图片检测和上传
+     * @param bitmap 检测和上传的图片
+     */
+    public void checkBitmap(Bitmap bitmap){
+        startCheckBitmap(bitmap);
+    }
+
+    /**
+     * 开始上传
+     */
+    public void startUpload(){
+        startUploadBitmap();
     }
 
 
     /**
-     * 检查照片结果的回调
+     * 检查照片和上传结果的回调
      * @param callBack 回调接口
      */
     public void setCheckCallBack(PixelCallBack callBack){
         this.callBack=callBack;
     }
-
 
 
     private PixelSDK getInstance(Context context) {
@@ -51,46 +62,40 @@ public class PixelSDK implements CheckBitmapCallback{
         return this;
     }
 
-
     private PixelSDK initPixelParams() {
         pixelResult=pixelUtil.checkData(context);
         return this;
     }
 
-
-    private void startCheckAndSend(Bitmap bitmap){
+    private void startCheckBitmap(Bitmap bitmap){
         if (callBack==null) return;
-        if (pixelResult.getResultCode()== PixelCode.SUCCESS){
+        if (pixelResult.getResultCode()== PixelCode.SUCCESS
+                ||pixelResult.getResultCode()>PixelCode.APP_KEY_OR_COMPANY_ERROR){
             pixelUtil.checkBitmap(bitmap);
             pixelUtil.setCheckBitmapCallback(this);
+        }else{
+            callBack.checkResult(TYPE_CHECK_FACE,pixelResult);
+        }
+    }
+
+    private void startUploadBitmap(){
+        if (pixelResult.getResultCode()==PixelCode.SUCCESS){
+            pixelUtil.startUpload();
+            pixelUtil.setUploadBitmapCallback(this);
         }else {
-            callBack.checkResult(pixelResult);
+            callBack.checkResult(TYPE_CHECK_FACE,pixelResult);
         }
     }
 
     @Override
     public void checkBitmapResult(PixelResult pixelResult) {
-        if (pixelResult.getResultCode()==PixelCode.SUCCESS){
-            Log.i("startCheckAndSend", "checkResult: "+pixelResult.getResultCode());
-            OkHttpUtils.get().url("http://www.baidu.com").build().execute(new StringCallback() {
-                @Override
-                public void onError(Call call, Exception e, int id) {
-                    PixelResult pixelResult=new PixelResult();
-                    pixelResult.setResultCode(PixelCode.OTHER_FAIL);
-                    pixelResult.setResultMessage("请求发生错误");
-                    callBack.checkResult(pixelResult);
-                }
+        if (callBack==null) return;
+        this.pixelResult=pixelResult;
+        callBack.checkResult(TYPE_CHECK_FACE,pixelResult);
+    }
 
-                @Override
-                public void onResponse(String response, int id) {
-                    PixelResult pixelResult=new PixelResult();
-                    pixelResult.setResultCode(PixelCode.SUCCESS);
-                    pixelResult.setResultMessage(response);
-                    callBack.checkResult(pixelResult);
-                }
-            });
-        }else {
-            callBack.checkResult(pixelResult);
-        }
+    @Override
+    public void uploadBitmapResult(PixelResult pixelResult) {
+        callBack.checkResult(TYPE_UPLOAD_BITMAP,pixelResult);
     }
 }

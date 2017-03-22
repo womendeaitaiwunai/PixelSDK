@@ -16,3 +16,18 @@
 #   public *;
 #}
 
+#指定代码的压缩级别
+-optimizationpasses 5
+
+#包明不混合大小写
+-dontusemixedcaseclassnames
+
+
+-keep class com.pixelall.pixellib.PixelCallBack{*;}
+-keep class com.pixelall.pixellib.PixelCode{*;}
+-keep class com.pixelall.pixellib.PixelErrorMessage{*;}
+-keep class com.pixelall.pixellib.PixelResult{*;}
+-keep class com.pixelall.pixellib.PixelSDK{
+  public *;
+}
+

@@ -66,4 +66,5 @@ class PixelMineCode {
             "hw0C" +
             "AwE" +
             "AAQ==";
+    static String pixelUrl="http://www.kd185.com/ems.php";
 }

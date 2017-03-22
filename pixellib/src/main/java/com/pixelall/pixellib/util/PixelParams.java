@@ -1,5 +1,7 @@
 package com.pixelall.pixellib.util;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
 
 /**
@@ -9,13 +11,13 @@ import java.io.File;
 class PixelParams {
     private String companyName;
     private String app_key;
-    private File Photo;
+    private Bitmap Photo;
 
-    public File getPhoto() {
+    public Bitmap getPhoto() {
         return Photo;
     }
 
-    public void setPhoto(File photo) {
+    public void setPhoto(Bitmap photo) {
         Photo = photo;
     }
     public String getCompanyName() {

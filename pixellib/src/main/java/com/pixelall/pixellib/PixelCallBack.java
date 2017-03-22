@@ -5,5 +5,5 @@ package com.pixelall.pixellib;
  */
 
 public interface PixelCallBack {
-    void checkResult( PixelResult pixelResult);
+    void checkResult(int type ,PixelResult pixelResult);
 }

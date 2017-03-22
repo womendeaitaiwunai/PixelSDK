@@ -12,11 +12,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pixelall.pixellib.PixelCallBack;
+import com.pixelall.pixellib.PixelCode;
 import com.pixelall.pixellib.PixelResult;
 import com.pixelall.pixellib.PixelSDK;
 import com.pixelall.pixellib.util.Base64Utils;
+import com.pixelall.pixellib.util.CheckBitmapCallback;
 import com.pixelall.pixellib.util.RSAUtils;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -31,11 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mine1,mine2,mine3,mine4;
     private PixelSDK pixelSDK;
 
-  String privateString="MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA5RIfZrHBuEZwXWh0s536FvMvk+20Zzz5C" +
-          "EfwR3yvoT0zlhkFjYEh51/2ztqxsW3AHsZs7O2irO+qBB6gQt/kaQIDAQABAkEAiCxIzHSZM2F0RKLm1SvxUplITEj/eGuvovOY6/Y8Nb2a" +
-          "7P9E+HCYWfE9j9pJzjFbFVdHyG63y+cal3tIHkW1cQIhAP0u3N255CAbYbaKxTWTmdYNI1E8O480EndoKoFUgFLtAiEA556U0YSvaD+ejdlpP2xqgBf" +
-          "4HdPi+4sB3FWlBYmAu+0CIApzMbiRIKJWnvza03L3qaTVG/0RY" +
-          "F/zxUNacE6wPy+tAiBwuBZImMAchcmN0t6LhSGXURLowTNXo2C2b9+tgCtsSQIgONf45mJHtrtp6IgNQuwc7VdJ4sgHlaS2aDInyWGsXJk=";
+    String privateString="MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA5RIfZrHBuEZwXWh0s536FvMvk+20Zzz5C" +
+            "EfwR3yvoT0zlhkFjYEh51/2ztqxsW3AHsZs7O2irO+qBB6gQt/kaQIDAQABAkEAiCxIzHSZM2F0RKLm1SvxUplITEj/eGuvovOY6/Y8Nb2a" +
+            "7P9E+HCYWfE9j9pJzjFbFVdHyG63y+cal3tIHkW1cQIhAP0u3N255CAbYbaKxTWTmdYNI1E8O480EndoKoFUgFLtAiEA556U0YSvaD+ejdlpP2xqgBf" +
+            "4HdPi+4sB3FWlBYmAu+0CIApzMbiRIKJWnvza03L3qaTVG/0RY" +
+            "F/zxUNacE6wPy+tAiBwuBZImMAchcmN0t6LhSGXURLowTNXo2C2b9+tgCtsSQIgONf45mJHtrtp6IgNQuwc7VdJ4sgHlaS2aDInyWGsXJk=";
 
     String publicString="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOUSH2axwbhGcF1odLOd+hbzL5PttGc8+QhH8Ed8r6E9M5YZBY2BIedf9s7asbFtwB7GbOztoqzvqgQeoELf5GkCAwEAAQ==";
 
@@ -70,15 +80,82 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pixelSDK=new PixelSDK(MainActivity.this);
         pixelSDK.setCheckCallBack(new PixelCallBack() {
             @Override
-            public void checkResult(PixelResult pixelResult) {
-                if (pixelResult.getResultCode()==0x00){
-                    Toast.makeText(MainActivity.this, "检测通过", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(MainActivity.this,pixelResult.getResultMessage(), Toast.LENGTH_SHORT).show();
+            public void checkResult(int type, PixelResult pixelResult) {
+                if (type == PixelSDK.TYPE_CHECK_FACE ){
+                    if (pixelResult.getResultCode() == PixelCode.SUCCESS) {
+                        Log.i("开始-->", "检测成功，开始上传 ");
+                        pixelSDK.startUpload();
+                    } else Toast.makeText(MainActivity.this, "错误信息:"+pixelResult.getResultMessage(), Toast.LENGTH_SHORT).show();
+                } else if (type==PixelSDK.TYPE_UPLOAD_BITMAP){
+                    Log.i("结束", "结果信息: "+pixelResult.getResultMessage());
                 }
             }
         });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //httpUrlConnectionPut("http://www.cnblogs.com/");
+            }
+        }).start();
     }
+
+    public String httpUrlConnectionPut(String httpUrl) {
+        String result = "";
+        URL url = null;
+        try {
+            url = new URL(httpUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        if (url != null) {
+            try {
+                HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+                urlConn.setRequestProperty("content-type", "application/json");
+                urlConn.setDoInput(true);
+                urlConn.setDoOutput(true);
+                urlConn.setConnectTimeout(5 * 1000);
+                //设置请求方式为 POST
+                urlConn.setRequestMethod("POST");
+                urlConn.setRequestProperty("Content-Type", "application/octet-stream");
+                urlConn.setRequestProperty("Charset", "UTF-8");
+
+
+                OutputStream os = urlConn.getOutputStream();
+                String param = new String();
+                param = "CorpID=" + "123123" +
+                        "&LoginName=" + "lxl"+
+                        "&send_no=" + "13126445293" +
+                        "&msg=" + java.net.URLEncoder.encode("哈哈哈","UTF-8"); ;
+                os.write(param.getBytes());
+
+                DataOutputStream dos = new DataOutputStream(os);
+                //写入请求参数
+                //这里要注意的是，在构造JSON字符串的时候，实践证明，最好不要使用单引号，而是用“\”进行转义，否则会报错
+                // 关于这一点在上面给出的参考文章里面有说明
+                String jsonParam = "{\"appid\":6,\"appkey\":\"0cf0vGD/ClIrVmvVT/r5hEutH5M=\",\"openid\":200}";
+                dos.writeBytes(jsonParam);
+                dos.flush();
+                dos.close();
+
+                if (urlConn.getResponseCode() == 200) {
+                    InputStreamReader isr = new InputStreamReader(urlConn.getInputStream());
+                    BufferedReader br = new BufferedReader(isr);
+                    String inputLine = null;
+                    while ((inputLine = br.readLine()) != null) {
+                        result += inputLine;
+                    }
+                    isr.close();
+                    urlConn.disconnect();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -101,36 +178,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.huoqu:
-                KeyPair keyPair=RSAUtils.generateRSAKeyPair();
+                KeyPair keyPair= RSAUtils.generateRSAKeyPair();
                  privateKey=keyPair.getPrivate();
                  publicKey=keyPair.getPublic();
 
                 pri.setText(Base64Utils.encode(privateKey.getEncoded()));
                 Log.i("得到的私用",Base64Utils.encode(privateKey.getEncoded()));
                 pub.setText(Base64Utils.encode(publicKey.getEncoded()));
-                Log.i("得到的公有",Base64Utils.encode(publicKey.getEncoded()));
+                Log.i("得到的公有", Base64Utils.encode(publicKey.getEncoded()));
                 break;
             case R.id.mine1:
                 Bitmap bitmap1= BitmapFactory.decodeResource(getResources(),R.mipmap.mine1);
-                pixelSDK.start(bitmap1);
-                bitmap1.recycle();
-                System.gc();
+                pixelSDK.checkBitmap(bitmap1);
                 break;
 
             case R.id.mine2:
                 Bitmap bitmap2= BitmapFactory.decodeResource(getResources(),R.mipmap.mine2);
-                pixelSDK.start(bitmap2);
+                pixelSDK.checkBitmap(bitmap2);
                 bitmap2.recycle();
                 break;
 
             case R.id.mine3:
                 Bitmap bitmap3= BitmapFactory.decodeResource(getResources(),R.mipmap.mine3);
-                pixelSDK.start(bitmap3);
+                pixelSDK.checkBitmap(bitmap3);
                 bitmap3.recycle();
                 break;
             case R.id.mine4:
                 Bitmap bitmap4= BitmapFactory.decodeResource(getResources(),R.mipmap.mine4);
-                pixelSDK.start(bitmap4);
+                pixelSDK.checkBitmap(bitmap4);
                 bitmap4.recycle();
                 break;
         }
