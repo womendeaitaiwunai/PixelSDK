@@ -11,15 +11,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.pixelall.pixellib.PixelCode;
-import com.pixelall.pixellib.PixelErrorMessage;
 import com.pixelall.pixellib.PixelResult;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;

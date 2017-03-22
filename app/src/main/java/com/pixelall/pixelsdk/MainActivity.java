@@ -10,28 +10,29 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+//
+//import com.pixelall.pixellib.PixelCallBack;
+//import com.pixelall.pixellib.PixelCode;
+//import com.pixelall.pixellib.PixelResult;
+//import com.pixelall.pixellib.PixelSDK;
+//import com.pixelall.pixellib.util.Base64Utils;
+//import com.pixelall.pixellib.util.RSAUtils;
 
 import com.pixelall.pixellib.PixelCallBack;
 import com.pixelall.pixellib.PixelCode;
 import com.pixelall.pixellib.PixelResult;
 import com.pixelall.pixellib.PixelSDK;
-import com.pixelall.pixellib.util.Base64Utils;
-import com.pixelall.pixellib.util.CheckBitmapCallback;
-import com.pixelall.pixellib.util.RSAUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText e1,e2,e3;
@@ -160,33 +161,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.jiami:
-                try {
-                    String jiamiString = Base64Utils.encode(RSAUtils.encryptData(e1.getText().toString().getBytes(),RSAUtils.loadPublicKey(publicString)));
-                    e2.setText(jiamiString);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.jiemi:
-                try{
-                    byte[] jiemiString=RSAUtils.decryptData(Base64Utils.decode(e2.getText().toString()),RSAUtils.loadPrivateKey(privateString));
-                    e3.setText(new String(jiemiString));
-                }catch (Exception e){
-
-                }
-
-                break;
-            case R.id.huoqu:
-                KeyPair keyPair= RSAUtils.generateRSAKeyPair();
-                 privateKey=keyPair.getPrivate();
-                 publicKey=keyPair.getPublic();
-
-                pri.setText(Base64Utils.encode(privateKey.getEncoded()));
-                Log.i("得到的私用",Base64Utils.encode(privateKey.getEncoded()));
-                pub.setText(Base64Utils.encode(publicKey.getEncoded()));
-                Log.i("得到的公有", Base64Utils.encode(publicKey.getEncoded()));
-                break;
+//            case R.id.jiami:
+//                try {
+//                    String jiamiString = Base64Utils.encode(RSAUtils.encryptData(e1.getText().toString().getBytes(),RSAUtils.loadPublicKey(publicString)));
+//                    e2.setText(jiamiString);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.jiemi:
+//                try{
+//                    byte[] jiemiString=RSAUtils.decryptData(Base64Utils.decode(e2.getText().toString()),RSAUtils.loadPrivateKey(privateString));
+//                    e3.setText(new String(jiemiString));
+//                }catch (Exception e){
+//
+//                }
+//
+//                break;
+//            case R.id.huoqu:
+//                KeyPair keyPair= RSAUtils.generateRSAKeyPair();
+//                 privateKey=keyPair.getPrivate();
+//                 publicKey=keyPair.getPublic();
+//
+//                pri.setText(Base64Utils.encode(privateKey.getEncoded()));
+//                Log.i("得到的私用",Base64Utils.encode(privateKey.getEncoded()));
+//                pub.setText(Base64Utils.encode(publicKey.getEncoded()));
+//                Log.i("得到的公有", Base64Utils.encode(publicKey.getEncoded()));
+//                break;
             case R.id.mine1:
                 Bitmap bitmap1= BitmapFactory.decodeResource(getResources(),R.mipmap.mine1);
                 pixelSDK.checkBitmap(bitmap1);
@@ -195,18 +196,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.mine2:
                 Bitmap bitmap2= BitmapFactory.decodeResource(getResources(),R.mipmap.mine2);
                 pixelSDK.checkBitmap(bitmap2);
-                bitmap2.recycle();
                 break;
 
             case R.id.mine3:
                 Bitmap bitmap3= BitmapFactory.decodeResource(getResources(),R.mipmap.mine3);
                 pixelSDK.checkBitmap(bitmap3);
-                bitmap3.recycle();
                 break;
             case R.id.mine4:
                 Bitmap bitmap4= BitmapFactory.decodeResource(getResources(),R.mipmap.mine4);
                 pixelSDK.checkBitmap(bitmap4);
-                bitmap4.recycle();
                 break;
         }
     }

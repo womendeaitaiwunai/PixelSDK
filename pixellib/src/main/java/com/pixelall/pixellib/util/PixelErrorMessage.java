@@ -1,6 +1,9 @@
-package com.pixelall.pixellib;
+package com.pixelall.pixellib.util;
 
 import android.text.TextUtils;
+
+import com.pixelall.pixellib.PixelCode;
+import com.pixelall.pixellib.PixelResult;
 
 /**
  * Created by lxl on 2017/3/14.

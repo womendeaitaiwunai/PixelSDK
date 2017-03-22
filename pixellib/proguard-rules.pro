@@ -25,7 +25,6 @@
 
 -keep class com.pixelall.pixellib.PixelCallBack{*;}
 -keep class com.pixelall.pixellib.PixelCode{*;}
--keep class com.pixelall.pixellib.PixelErrorMessage{*;}
 -keep class com.pixelall.pixellib.PixelResult{*;}
 -keep class com.pixelall.pixellib.PixelSDK{
   public *;
