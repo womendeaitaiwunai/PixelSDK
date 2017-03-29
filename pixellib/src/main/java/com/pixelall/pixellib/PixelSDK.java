@@ -60,7 +60,7 @@ public class PixelSDK implements CheckBitmapCallback,UploadBitmapCallback{
 
 
     private PixelSDK getInstance(Context context) {
-        this.context=context;
+        this.context=context.getApplicationContext();
         pixelUtil=new PixelUtil();
         return this;
     }
