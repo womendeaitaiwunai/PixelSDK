@@ -5,11 +5,10 @@ package com.pixelall.pixellib.util;
  */
 
  class PixelCommon {
-    static String COMPANY="company";
-    static String APP_KEY="app_key";
-    static String RESULT_CODE="result_code";
-    static String MESSAGE="message";
-    static String PIXEL_CODE="pixelCode=";
+    static String COMPANY="mine_company";
+    static String APP_KEY="pixel_app_key";
+    static String RESULT_CODE="resultCode";
+    static String MESSAGE="resultMessage";
 
     static int ERROR_FACE=-1;
     static int MAX_FACE=2;

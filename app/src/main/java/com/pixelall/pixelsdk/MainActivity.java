@@ -10,13 +10,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-//
-//import com.pixelall.pixellib.PixelCallBack;
-//import com.pixelall.pixellib.PixelCode;
-//import com.pixelall.pixellib.PixelResult;
-//import com.pixelall.pixellib.PixelSDK;
-//import com.pixelall.pixellib.util.Base64Utils;
-//import com.pixelall.pixellib.util.RSAUtils;
+
+import com.pixelall.pixellib.PixelCallBack;
+import com.pixelall.pixellib.PixelCode;
+import com.pixelall.pixellib.PixelResult;
+import com.pixelall.pixellib.PixelSDK;
+import com.pixelall.pixellib.util.Base64Utils;
+import com.pixelall.pixellib.util.RSAUtils;
 
 import com.pixelall.pixellib.PixelCallBack;
 import com.pixelall.pixellib.PixelCode;
@@ -42,13 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mine1,mine2,mine3,mine4;
     private PixelSDK pixelSDK;
 
-    String privateString="MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA5RIfZrHBuEZwXWh0s536FvMvk+20Zzz5C" +
-            "EfwR3yvoT0zlhkFjYEh51/2ztqxsW3AHsZs7O2irO+qBB6gQt/kaQIDAQABAkEAiCxIzHSZM2F0RKLm1SvxUplITEj/eGuvovOY6/Y8Nb2a" +
-            "7P9E+HCYWfE9j9pJzjFbFVdHyG63y+cal3tIHkW1cQIhAP0u3N255CAbYbaKxTWTmdYNI1E8O480EndoKoFUgFLtAiEA556U0YSvaD+ejdlpP2xqgBf" +
-            "4HdPi+4sB3FWlBYmAu+0CIApzMbiRIKJWnvza03L3qaTVG/0RY" +
-            "F/zxUNacE6wPy+tAiBwuBZImMAchcmN0t6LhSGXURLowTNXo2C2b9+tgCtsSQIgONf45mJHtrtp6IgNQuwc7VdJ4sgHlaS2aDInyWGsXJk=";
-
-    String publicString="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOUSH2axwbhGcF1odLOd+hbzL5PttGc8+QhH8Ed8r6E9M5YZBY2BIedf9s7asbFtwB7GbOztoqzvqgQeoELf5GkCAwEAAQ==";
+    String privateString="MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAw0GSYcoAY2n/hJpdnV2Cywp2t+AS8f4yDAXPt3jfmlxaOhB65T8WRsF+GHkgtDnsF/H5J6MDRI9m6D16wprr5QIDAQABAkEAt3L2G1Z0wvKmFWoLJnzjE+0C2YN3iVFwqAcVv6WbQCR8O/VFbI1bUsWS+pGiVrlqJTlEXcI9izaJDdn7VbESQQIhAOn79L4TUxQkF8pWM0s6IYHMWmI4D+I0WBed88A7yv7dAiEA1aDDDNzi65vnL5AyNM0GHB8XdmCorT5D6hnW38nSnKkCIQDk1Ci1XzbHosi1c/n0HyS3yP+3wLYf9isU5b+Fh7Rt7QIgdsnP6+UfoVets/sAj++5iAWZ7E9PPBY1eYUowIPfQxECICJ/1JyWZc5Mqy63LFid+wOGpBbHY7zulnts5kFApl4G";
+    String publicString="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMNBkmHKAGNp/4SaXZ1dgssKdrfgEvH+MgwFz7d435pcWjoQeuU/FkbBfhh5ILQ57Bfx+SejA0SPZug9esKa6+UCAwEAAQ==";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,27 +73,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mine3.setOnClickListener(this);
         mine4.setOnClickListener(this);
 
+        //初始化SDK
         pixelSDK=new PixelSDK(MainActivity.this);
+        //检测和上传图片的回调
         pixelSDK.setCheckCallBack(new PixelCallBack() {
             @Override
             public void checkResult(int type, PixelResult pixelResult) {
-                if (type == PixelSDK.TYPE_CHECK_FACE ){
-                    if (pixelResult.getResultCode() == PixelCode.SUCCESS) {
-                        Log.i("开始-->", "检测成功，开始上传 ");
-                        pixelSDK.startUpload();
-                    } else Toast.makeText(MainActivity.this, "错误信息:"+pixelResult.getResultMessage(), Toast.LENGTH_SHORT).show();
-                } else if (type==PixelSDK.TYPE_UPLOAD_BITMAP){
-                    Log.i("结束", "结果信息: "+pixelResult.getResultMessage());
+                if (type == PixelSDK.TYPE_CHECK_FACE &&pixelResult.getResultCode() == PixelCode.SUCCESS){
+                    Toast.makeText(MainActivity.this, "检测成功，正在上传图片", Toast.LENGTH_SHORT).show();
+                    //检测通过，开始上传照片
+                    pixelSDK.startUpload();
+                } else if (type==PixelSDK.TYPE_UPLOAD_BITMAP&&pixelResult.getResultCode() == PixelCode.SUCCESS){
+                    //上传成功，得到检测订单号
+                    Toast.makeText(MainActivity.this, "得到的订单是"+pixelResult.getResultMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    //其他的错误  eg:app_key和company不对应，人脸多，没人脸===错误
+                    Toast.makeText(MainActivity.this, "错误信息:"+pixelResult.getResultMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //httpUrlConnectionPut("http://www.cnblogs.com/");
-            }
-        }).start();
     }
 
     public String httpUrlConnectionPut(String httpUrl) {
@@ -161,33 +155,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-//            case R.id.jiami:
-//                try {
-//                    String jiamiString = Base64Utils.encode(RSAUtils.encryptData(e1.getText().toString().getBytes(),RSAUtils.loadPublicKey(publicString)));
-//                    e2.setText(jiamiString);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                break;
-//            case R.id.jiemi:
-//                try{
-//                    byte[] jiemiString=RSAUtils.decryptData(Base64Utils.decode(e2.getText().toString()),RSAUtils.loadPrivateKey(privateString));
-//                    e3.setText(new String(jiemiString));
-//                }catch (Exception e){
-//
-//                }
-//
-//                break;
-//            case R.id.huoqu:
-//                KeyPair keyPair= RSAUtils.generateRSAKeyPair();
-//                 privateKey=keyPair.getPrivate();
-//                 publicKey=keyPair.getPublic();
-//
-//                pri.setText(Base64Utils.encode(privateKey.getEncoded()));
-//                Log.i("得到的私用",Base64Utils.encode(privateKey.getEncoded()));
-//                pub.setText(Base64Utils.encode(publicKey.getEncoded()));
-//                Log.i("得到的公有", Base64Utils.encode(publicKey.getEncoded()));
-//                break;
+            case R.id.jiami:
+                try {
+                    String jiamiString = Base64Utils.encode(RSAUtils.encryptData(e1.getText().toString().getBytes(),RSAUtils.loadPublicKey(publicString)));
+                    e2.setText(jiamiString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.jiemi:
+                try{
+                    byte[] jiemiString=RSAUtils.decryptData(Base64Utils.decode(e2.getText().toString()),RSAUtils.loadPrivateKey(privateString));
+                    e3.setText(new String(jiemiString));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.huoqu:
+                KeyPair keyPair= RSAUtils.generateRSAKeyPair();
+                 privateKey=keyPair.getPrivate();
+                 publicKey=keyPair.getPublic();
+
+                try{
+                    pri.setText(Base64Utils.encode(privateKey.getEncoded()));
+                    Log.i("得到的私用",Base64Utils.encode(privateKey.getEncoded()));
+                    pub.setText(Base64Utils.encode(publicKey.getEncoded()));
+                    Log.i("得到的公有", Base64Utils.encode(publicKey.getEncoded()));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                break;
             case R.id.mine1:
                 Bitmap bitmap1= BitmapFactory.decodeResource(getResources(),R.mipmap.mine1);
                 pixelSDK.checkBitmap(bitmap1);

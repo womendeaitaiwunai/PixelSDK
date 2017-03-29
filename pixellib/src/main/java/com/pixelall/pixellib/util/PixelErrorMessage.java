@@ -39,6 +39,8 @@ public class PixelErrorMessage {
             return "提交数据出错";
         }else if(result.getResultCode()== PixelCode.RETURN_DATA_ERROR){
             return "返回数据错误";
+        }else if(result.getResultCode()== PixelCode.SERVICE_TIME_OUT){
+            return "服务器连接超时";
         } else return "其他错误";
     }
 }

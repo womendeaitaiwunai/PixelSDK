@@ -13,13 +13,12 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <meta-data android:name="company" android:value="pixelall"/>
-        <meta-data android:name="app_key" android:value="pvRLSncUck1fwtTYG6wwdVK1Af5qFP0Gubmd8POp3sicSdGsfrN6gOXSMYI48yAQ7MBnt/VQyLiPO1Bc+6rGdQ=="/>
+        <meta-data android:name="mine_company" android:value="pixelall"/>
+        <meta-data android:name="pixel_app_key" android:value="OVPGvDswE48yKy3It2oTKpGBi0KGZqWnTgO0b5ZDMfIOGjEvBZywKmk7OLV0HUmkcgKWvU3Lq9al3xPV9JaBrw=="/>
     </application>
 
 </manifest>

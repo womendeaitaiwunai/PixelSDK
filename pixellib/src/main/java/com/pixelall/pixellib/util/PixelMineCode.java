@@ -5,66 +5,7 @@ package com.pixelall.pixellib.util;
  */
 
 class PixelMineCode {
-    static String checkKey="PixelCode:MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA5RIfZrHBuEZwXWh0s536FvMvk+20Zzz5C" +
-            "EfwR3yvoT0zlhkFjYEh51/2ztqxsW3AHsZs7O2irO+qBB6gQt/kaQIDAQABAkEAiCxIzHSZM2F0RKLm1SvxUplITEj/eGuvovOY6/Y8Nb2a" +
-            "7P9E+HCYWfE9j9pJzjFbFVdHyG63y+cal3tIHkW1cQIhAP0u3N255CAbYbaKxTWTmdYNI1E8O480EndoKoFUgFLtAiEA556U0YSvaD+ejdlpP2xqgBf" +
-            "4HdPi+4sB3FWlBYmAu+0CIApzMbiRIKJWnvza03L3qaTVG/0RY" +
-            "F/zxUNacE6wPy+tAiBwuBZImMAchcmN0t6LhSGXURLowTNXo2C2b9+tgCtsSQIgONf45mJHtrtp6IgNQuwc7VdJ4sgHlaS2aDInyWGsXJk=";
-
-    static String upKey="M" +
-            "F" +
-            "w" +
-            "w" +
-            "D" +
-            "Q" +
-            "Y" +
-            "J" +
-            "K" +
-            "o" +
-            "Z" +
-            "I" +
-            "h" +
-            "v" +
-            "c" +
-            "N" +
-            "AQ" +
-            "EB" +
-            "BQ" +
-            "AD" +
-            "Sw" +
-            "Aw" +
-            "SA" +
-            "JB" +
-            "AK" +
-            "uv" +
-            "S9" +
-            "TT" +
-            "Jk" +
-            "xP" +
-            "+Ly" +
-            "ldk" +
-            "9ha" +
-            "mDf" +
-            "V7b" +
-            "W2M" +
-            "bxI" +
-            "yaA" +
-            "UVk" +
-            "oMC" +
-            "jbm" +
-            "ypy" +
-            "x8e" +
-            "b95" +
-            "7tnT" +
-            "MkrV" +
-            "a00m" +
-            "Ig9b" +
-            "4+fh" +
-            "Yeo" +
-            "272" +
-            "hE/l" +
-            "hw0C" +
-            "AwE" +
-            "AAQ==";
-    static String pixelUrl="http://www.kd185.com/ems.php";
+    static String checkKey="PixelCode:MIIBVgIBADANBgkqhkiG9w0BAQEFAASCAUAwggE8AgEAAkEAthYtInar200vRr2K7/VI4UN7xqZMZJTHF8i0XaJoPwDgq0oTQIVYl1/ZbZHF9YL/qFMBfIwClaS2TD/u+3ChoQIDAQABAkBKeuG1YiNDzduTrP5CzusjsU3U4LsIvU5+rQsR7deERS+bs1XIbV7jjISKjaq86mlpq3WkObFWPuJJxZrJModRAiEA5s6AA1vEUjyQwdPrk64R9zoL8Ybv4Z8wfV4ewK1aQJUCIQDJ9kcyg3947HyGNGQqrAIqtDsOKsUmKvwq3eCBMt4d3QIhAM3lqY1Vb+1s2jYPNzinMJ+7yKvOFHDR8g/kxspb2weBAiEAwN1wZlvPSrJDxIGZumpi81cEImZTuTxJbcJPF/J0zP0CIQCsd2t7Pm3aTIo8wRa4UF8JsUKIujatg0E8JbOQMJG7ig==";
+    static String upKey="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMNBkmHKAGNp/4SaXZ1dgssKdrfgEvH+MgwFz7d435pcWjoQeuU/FkbBfhh5ILQ57Bfx+SejA0SPZug9esKa6+UCAwEAAQ==";
+    static String pixelUrl="http://192.168.0.121:8080/sysuser/photoStudioForSDK_checkForSdkByKeyAndUpload.action";
 }

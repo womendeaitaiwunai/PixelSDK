@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 
@@ -52,7 +53,7 @@ public class PixelUtil {
             params.setCompanyName(company);
             params.setApp_key(app_key);
         }catch (Exception e){
-            Log.i("initParams", "initParams: ApplicationInfo error");
+            e.printStackTrace();
         }
         return params;
     }
@@ -137,7 +138,7 @@ public class PixelUtil {
             fd = new FaceDetector(bitmapWidth, bitmapHeight, PixelCommon.MAX_FACE);
             count = fd.findFaces(mFaceBitmap565, faces);
         } catch (Exception e) {
-            Log.i("checkFace", "checkFace: error");
+            e.printStackTrace();
         }
         finally {
             if( !mFaceBitmap565.isRecycled()){
@@ -161,7 +162,7 @@ public class PixelUtil {
                     RSAUtils.loadPrivateKey(PixelMineCode.checkKey.substring(10,PixelMineCode.checkKey.length())));
             if (bytes!=null)checkData=new String(bytes);
         }catch (Exception e){
-            Log.i("checkEqual", "checkEqual: "+"发生错误");
+            e.printStackTrace();
             checkData="";
         }
         return checkData.equals(company);
@@ -262,11 +263,11 @@ public class PixelUtil {
 
             //StringBuffer params = new StringBuffer().append(PixelCommon.PIXEL_CODE).append();
             StringBuffer pixelParams = new StringBuffer()
-                    .append("v1=").append(params.getApp_key()).append("&")
-                    .append("v2=").append(params.getCompanyName()).append("&")
-                    .append("v3=").append(time.toString()).append("&")
-                    .append("v4=").append(getTimeKey(time.toString()));
-                    //.append("v5=").append(getPhotoData(params.getPhoto()));
+                    .append("v1=").append(params.getCompanyName()).append("&")
+                    .append("v2=").append(params.getApp_key()).append("&")
+                    .append("v3=").append(time).append("&")
+                    .append("v4=").append(getTimeKey(time+"")).append("&")
+                    .append("v5=").append(getPhotoData(params.getPhoto()));
             byte[] bytes = pixelParams.toString().getBytes();
             conn.getOutputStream().write(bytes);
             InputStream inStream=conn.getInputStream();
@@ -293,7 +294,11 @@ public class PixelUtil {
                 pixelResult.setResultCode(PixelCode.SERVICE_URL_ERROR);
                 pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
                 return pixelResult;
-            }else result="";
+            }else if (e instanceof SocketTimeoutException){
+                pixelResult.setResultCode(PixelCode.SERVICE_TIME_OUT);
+                pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
+                return pixelResult;
+            }result="";
         }
 
         if (TextUtils.isEmpty(result)){
@@ -331,7 +336,12 @@ public class PixelUtil {
 
 
     private String getPhotoData(Bitmap bitmap){
-        return Base64Utils.encode(Bitmap2Bytes(bitmap));
+        try {
+            return Base64Utils.encode(Bitmap2Bytes(bitmap));
+        }catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
     }
 
 
