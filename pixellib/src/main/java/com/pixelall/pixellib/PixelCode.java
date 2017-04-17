@@ -27,5 +27,6 @@ public class PixelCode {
     public static int COMMIT_DATA_ERROR=0x12;//提交数据出错
     public static int RETURN_DATA_ERROR=0x13;//返回数据错误
     public static int SERVICE_TIME_OUT=0x14;//返回数据错误
+    public static int SERVICE_NOT_FIND=0x15;//服务器地址错误
 
 }

@@ -41,6 +41,8 @@ public class PixelErrorMessage {
             return "返回数据错误";
         }else if(result.getResultCode()== PixelCode.SERVICE_TIME_OUT){
             return "服务器连接超时";
+        }else if(result.getResultCode()== PixelCode.SERVICE_NOT_FIND){
+            return "服务器地址错误";
         } else return "其他错误";
     }
 }

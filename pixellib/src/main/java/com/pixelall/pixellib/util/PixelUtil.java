@@ -282,6 +282,10 @@ public class PixelUtil {
                 }
                 isr.close();
                 conn.disconnect();
+            }else if (conn.getResponseCode()==HttpURLConnection.HTTP_NOT_FOUND){
+                pixelResult.setResultCode(PixelCode.SERVICE_NOT_FIND);
+                pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
+                return pixelResult;
             }else {
                 pixelResult.setResultCode(PixelCode.SERVICE_CONNECT_ERROR);
                 pixelResult.setResultMessage(PixelErrorMessage.getErrorMessage(pixelResult));
