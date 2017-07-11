@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -42,8 +43,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mine1,mine2,mine3,mine4;
     private PixelSDK pixelSDK;
 
-    String privateString="MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAw0GSYcoAY2n/hJpdnV2Cywp2t+AS8f4yDAXPt3jfmlxaOhB65T8WRsF+GHkgtDnsF/H5J6MDRI9m6D16wprr5QIDAQABAkEAt3L2G1Z0wvKmFWoLJnzjE+0C2YN3iVFwqAcVv6WbQCR8O/VFbI1bUsWS+pGiVrlqJTlEXcI9izaJDdn7VbESQQIhAOn79L4TUxQkF8pWM0s6IYHMWmI4D+I0WBed88A7yv7dAiEA1aDDDNzi65vnL5AyNM0GHB8XdmCorT5D6hnW38nSnKkCIQDk1Ci1XzbHosi1c/n0HyS3yP+3wLYf9isU5b+Fh7Rt7QIgdsnP6+UfoVets/sAj++5iAWZ7E9PPBY1eYUowIPfQxECICJ/1JyWZc5Mqy63LFid+wOGpBbHY7zulnts5kFApl4G";
-    String publicString="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMNBkmHKAGNp/4SaXZ1dgssKdrfgEvH+MgwFz7d435pcWjoQeuU/FkbBfhh5ILQ57Bfx+SejA0SPZug9esKa6+UCAwEAAQ==";
+    //String privateString="MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAw0GSYcoAY2n/hJpdnV2Cywp2t+AS8f4yDAXPt3jfmlxaOhB65T8WRsF+GHkgtDnsF/H5J6MDRI9m6D16wprr5QIDAQABAkEAt3L2G1Z0wvKmFWoLJnzjE+0C2YN3iVFwqAcVv6WbQCR8O/VFbI1bUsWS+pGiVrlqJTlEXcI9izaJDdn7VbESQQIhAOn79L4TUxQkF8pWM0s6IYHMWmI4D+I0WBed88A7yv7dAiEA1aDDDNzi65vnL5AyNM0GHB8XdmCorT5D6hnW38nSnKkCIQDk1Ci1XzbHosi1c/n0HyS3yP+3wLYf9isU5b+Fh7Rt7QIgdsnP6+UfoVets/sAj++5iAWZ7E9PPBY1eYUowIPfQxECICJ/1JyWZc5Mqy63LFid+wOGpBbHY7zulnts5kFApl4G";
+    String privateString="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDzr2QHpjbHC2iQgWRuV6EbiM6J" +
+            "V8jfbkO9uwNt1hNrhAibAlU8lD2xsyynAljsSZllV1MCaupc74+ZLZk80dD2ASdfagNCnoYwyysQ" +
+            "iIFN2DqaNsmCfrf8BtsHW3rjQQ6NHXrRKIP6KpADm0pNm+yFBirajDEUfwlKAyEM4jlaqBbiAK5V" +
+            "miT4N+R9vJLWGuakx8p7pzWlUbw9aE6/sAd08Flo5Kk6pJ8EZTSJRdQI70oWD5KnvYWCoIlc0XWn" +
+            "izTIYT0HkSJ33I1cHbs2SZU7BfGHM9c19eNUeva1erOFl2iSc0Ug7EAZ5i+GeKGt+lGq+JtnzlTr" +
+            "sPOQ7YRUd+EBAgMBAAECggEACixYULlvr/+Z7e548uJVp4Cenr07dZh024bjLcKyLNrmQRJn3I+T" +
+            "w8dnJdHDRJoN/V0X6hHsltSpegudShy4TIzfx+v1FuLnV0IkGhyYyVctmyKOZxRDOhJPMo9vIe2l" +
+            "Xd7NMc4vNFJykLP69iJ8TVFkmJshsWlcSeq3hoIrQs2My5QvnQ2/XPFg9jrAJPeUL03ge2JEGSiM" +
+            "iMmHhitogKn5SrgDoEvv7alzo9r3xnKipTdTi3RZ9vyV0dU/yly+yKzRXmDVVarGs4MDSRa8iJoR" +
+            "s0ecVwEekyr7kK850BomFuTxl6gK5lWvNqcAPrPsBcMHqCMcpvRScdIVs/NQAQKBgQD9wFOGu2ST" +
+            "hcXml7dBORiJHQt1ZdggICPeGGCTReCNMMa/gHKkxlL8tsr5UuUER6gjR/AVQ6bPSWM4xpZQWHiw" +
+            "FguZoBUY8Fo/4ZvRZf9bbMXwCUdNuN0IPJQrxBE1CSCM9OApx7CIx+QYOU5r/7bt0i3C9uNkfEea" +
+            "Mz1Iq7HQkQKBgQD12DpUZg76vTrLyHr9zbCqu/DAAhb9/sGLrjGfDz5irjkjMy1Oh9JcihrbpsoE" +
+            "BStad9tNOW6IQBytjbXBCofue1qv1JCmHTTLZKO1x93pBoVniobFgFQ3gsv2w314j447VK7B15VN" +
+            "LgYQKKdRl2rOuvCDj1lGUuA8WMX8N6ZBcQKBgHAQUxMKiVV5W7gFwsHERGixchELxFITv6NjIquH" +
+            "za6tHukOAhNxHs9KrwNDL68fMks6hvXtJasf3vkBAvtCxzIE2mSjRQ35f/H8YgMtR4QJ2rSydFIH" +
+            "1V3A2zMk6PCCMmTt9F2fOgB+PubP0Cl0CkanbtxOiogjNsAL5wHECchxAoGAJMMYtdYtF0GEsURh" +
+            "X+KKMH26Gnw1g/W8a2647NgStB7pXGIivEODKWNdcMsYGlHLkdOqb3nPFYDAyRMPwrYYbYj0nqZi" +
+            "mvRzGJcMA/rHLDlVaY5FaPMvpL1iUpwY/xY4ZpbbKxFZuhjPv0rU+lZyGkfJ/2JIL0PlVCDSOkz4" +
+            "B4ECgYBn8tOGTWP6En7q4b7LDYnAuvtso9d32/cbkhQm7dyPR9OmmptVeBsBK6gCk+4S7itsJ/N0" +
+            "2uN1WKlXdigSZ+wyYbLkCrX8C0qTSqj4v1Uls98Eqr+zHynfdCOLLnvNzaV9eoS7ENIDpdF4ErIy" +
+            "Um+8vv7V4p8/yah5Qrl+zDyIZw==";
+//    String publicString="MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAsPniMpP3bJ4loZo4129vQl7+rQrOKy6O" +
+//        "Njlz84up+HsQoJc3Bobv++HLxQx9y0T1zPp6NT8zyWUNFq+kqk5dkgtr3Ap2DjijXDeYS8HWkg8u" +
+//        "wGLh9Cav7RdEyJRobUpniGpft/pGxQuh46NM4PmvIuQ3wdOrfm7gycc0n0pK4HxKT4fShoWXZzv6" +
+//        "WyBiHGbcwj/CpnaWMs5p+YbVo5Hqf2Ew+WEa2N65i0owHBf8x6T+Nwx9VEMRshDESUSTVIfHEc2F" +
+//        "5dERmdvRTckrVWgxO6TyGmCKEBh0fsKyh4xiuI8NoFbx49vJv2I4cnyoln94x+Daiw3kEC01npbt" +
+//        "migD+ZgFvvXkgp/lpDoHlAgkbzthmvn8oN8N9/p8AJnQ6OeJC7cxkEkoOTnZC/J+M5iqmYEBNvQH" +
+//        "UcfUVPK7z4vL9O/VmxSQIL4aMwcFSbEHoRlTLMTOOtz+cxn9jkFrLNf0qd3dzPyPv3l/EDrVoqqw" +
+//        "Mgub+kZkN5SH7gsAdCbATQQNYtFJXpo4x6RUnwyXvpReJW0hLPnUwRjMeV09dwl55zi4OR6Plujo" +
+//        "/xc5TQb7QTFM1KsDkX7rtVcwlCGJO6Mm7mJ5gn4dqCZmR1uYeO8kn36pdpEK7rDyP9L2UX3hHcjc" +
+//        "jdpgCPd1GCvFGNll+faXY6F/dfQPsv8hb9NIj6BVVt8CAwEAAQ==";
+    //String publicString="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMNBkmHKAGNp/4SaXZ1dgssKdrfgEvH+MgwFz7d435pcWjoQeuU/FkbBfhh5ILQ57Bfx+SejA0SPZug9esKa6+UCAwEAAQ==";
+    String publicString="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA869kB6Y2xwtokIFkblehG4jOiVfI325D" +
+            "vbsDbdYTa4QImwJVPJQ9sbMspwJY7EmZZVdTAmrqXO+PmS2ZPNHQ9gEnX2oDQp6GMMsrEIiBTdg6" +
+            "mjbJgn63/AbbB1t640EOjR160SiD+iqQA5tKTZvshQYq2owxFH8JSgMhDOI5WqgW4gCuVZok+Dfk" +
+            "fbyS1hrmpMfKe6c1pVG8PWhOv7AHdPBZaOSpOqSfBGU0iUXUCO9KFg+Sp72FgqCJXNF1p4s0yGE9" +
+            "B5Eid9yNXB27NkmVOwXxhzPXNfXjVHr2tXqzhZdoknNFIOxAGeYvhnihrfpRqvibZ85U67DzkO2E" +
+            "VHfhAQIDAQAB";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pub= (TextView) findViewById(R.id.pub);
         Log.i("privateString",privateString);
         Log.i("publicString",publicString);
+
+        ContextThemeWrapper contextThemeWrapper=new ContextThemeWrapper(MainActivity.this,null);
+        contextThemeWrapper.setTheme(R.style.Theme_AppCompat_Light_Dialog);
 
 
         mine1= (ImageView) findViewById(R.id.mine1);

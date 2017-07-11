@@ -17,6 +17,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="Hello World!"
+                android:textIsSelectable="true"
                 android:background="#cccccc"/>
 
             <TextView
@@ -26,6 +27,7 @@
                 android:padding="10dp"
                 android:text="Hello World!"
                 android:layout_marginTop="20dp"
+                android:textIsSelectable="true"
                 android:background="#cccccc"/>
 
             <LinearLayout
